@@ -1,5 +1,6 @@
 package com.example.calculator;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -66,15 +67,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         if(btnText.equals("C")){
-            Datacalculate = Datacalculate.substring(0,Datacalculate.length()-1);
+            if(!Datacalculate.equals(""))
+                Datacalculate = Datacalculate.substring(0,Datacalculate.length()-1);
         }else {
             Datacalculate = Datacalculate+btnText;
         }
         txt_solution.setText(Datacalculate);
-        String finalResult = getResult(Datacalculate);
-        if(!finalResult.equals("Err")){
-            txt_result.setText(finalResult);
+        String finalResult="";
+        if(!Datacalculate.equals("")){
+            finalResult = getResult(Datacalculate);
+            if(!finalResult.equals("Err") ){
+                txt_result.setText(finalResult);
+            }else{
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setMessage("Lỗi");
+            }
+        } else {
+            txt_result.setText("0");
         }
+
     }
     String getResult(String data){
         try{
